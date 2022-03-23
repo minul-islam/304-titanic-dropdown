@@ -51,11 +51,11 @@ app.layout = html.Div([
 @app.callback(Output('display-value', 'figure'),
               [Input('dropdown', 'value')])
 def display_value(continuous_var):
-    grouped_mean=df.groupby(['Distributor'])[continuous_var].mean()
-    results=pd.DataFrame(grouped_mean)
-    # try a pie chart 
-    fig = go.Figure(data=[go.Pie(labels=results['Distributor'],values=df['continuous_var'])])
-return fig
+   grouped_mean=df.groupby(['Distributor'])[continuous_var].mean()
+   results=pd.DataFrame(grouped_mean)
+   # try a pie chart 
+   fig = go.Figure(data=[go.Pie(labels=results['Distributor'],values=df['continuous_var'])])
+   return fig
 
 
 ######### Run the app #########
