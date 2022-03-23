@@ -53,43 +53,9 @@ app.layout = html.Div([
 def display_value(continuous_var):
     grouped_mean=df.groupby(['Distributor'])[continuous_var].mean()
     results=pd.DataFrame(grouped_mean)
-    # Create a grouped bar chart
-    mydata1 = go.Bar(
-        x=results.loc['Walt Disney Studios Motion Pictures'].index,
-        y=results.loc['Walt Disney Studios Motion Pictures'][continuous_var],
-        name='Walt Disney',
-        marker=dict(color=color1)
-    )
-    
-    mydata2 = go.Bar(
-        x=results.loc['20th Century Fox'].index,
-        y=results.loc['20th Century Fox'][continuous_var],
-        name='Fox',
-        marker=dict(color=color2)
-    )
-    
-    mydata3 = go.Bar(
-        x=results.loc['Sony Pictures'].index,
-        y=results.loc['Sony Pictures'][continuous_var],
-        name='Sony Pictures',
-        marker=dict(color=color3)
-    )
-    
-    mydata4 = go.Bar(
-        x=results.loc['Other'].index,
-        y=results.loc['Other'][continuous_var],
-        name='Other',
-        marker=dict(color=color4)
-    )
-
-    mylayout = go.Layout(
-        title='Marvel Movie by Distributors',
-        xaxis = dict(title = 'Distributor'), # x-axis label
-        yaxis = dict(title = str(continuous_var)), # y-axis label
-
-    )
-    fig = go.Figure(data=[mydata1, mydata2, mydata3, mydata4], layout=mylayout)
-    return fig
+    # try a pie chart 
+    fig = go.Figure(data=[go.Pie(labels=results['Distributor'],values=df['continuous_var'])])
+return fig
 
 
 ######### Run the app #########
