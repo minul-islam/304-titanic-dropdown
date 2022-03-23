@@ -20,10 +20,10 @@ githublink = 'https://github.com/minul-islam/304-titanic-dropdown'
 
 ###### Import a dataframe #######
 df=pd.read_csv("assets/marvel_clean.csv")
-df.rename(columns={"NorthAmerica":"NorthAmerica Sales", "Worldwide":"Worldwide Sales"}, inplace=False)
+#df.rename(columns={"NorthAmerica":"NorthAmerica Sales", "Worldwide":"Worldwide Sales"}, inplace=False)
 df['Distributor'][(df['Distributor']!='Walt Disney Studios Motion Pictures') & (df['Distributor']!='20th Century Fox') 
    & (df['Distributor']!='Sony Pictures')]='Other' 
-variables_list=['Budget', 'NorthAmerica Sales', 'Worldwide Sales']
+variables_list=['Budget', 'NorthAmerica', 'Worldwide']
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
