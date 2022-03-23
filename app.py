@@ -9,17 +9,17 @@ import plotly.graph_objs as go
 
 
 ###### Define your variables #####
-tabtitle = 'Titanic!'
+tabtitle = 'Marvel Movies'
 color1='#92A5E8'
 color2='#8E44AD'
 color3='#FFC300'
-color3='#FAC200'
+color4='#0000FF'
 sourceurl = 'https://www.kaggle.com/datasets/minisam/marvel-movie-dataset'
 githublink = 'https://github.com/minul-islam/304-titanic-dropdown'
 
 
 ###### Import a dataframe #######
-df = df=pd.read_csv("assets/marvel_clean.csv")
+df=pd.read_csv("assets/marvel_clean.csv")
 df.rename(columns={"NorthAmerica":"NorthAmerica Sales", "Worldwide":"Worldwide Sales"}, inplace=False)
 df['Distributor'][(df['Distributor']!='Walt Disney Studios Motion Pictures') & (df['Distributor']!='20th Century Fox') 
    & (df['Distributor']!='Sony Pictures')]='Other' 
