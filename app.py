@@ -4,6 +4,7 @@ from dash import html
 from dash import dcc
 from dash.dependencies import Input, Output, State
 import pandas as pd
+import numpy as np
 import plotly as py
 import plotly.graph_objs as go
 
@@ -22,7 +23,11 @@ githublink = 'https://github.com/minul-islam/304-titanic-dropdown'
 df=pd.read_csv("assets/marvel_clean.csv")
 df.rename(columns={"NorthAmerica":"NorthAmerica Sales", "Worldwide":"Worldwide Sales"}, inplace=True)
 df['Distributor'][(df['Distributor']!='Walt Disney Studios Motion Pictures') & (df['Distributor']!='20th Century Fox') 
-   & (df['Distributor']!='Sony Pictures')]='Other' 
+   & (df['Distributor']!='Sony Pictures')]='Other'
+df['Release Year']=pd.to_datetime(df['ReleaseDateUS']).dt.year
+condition= [ df['Release Year']<2000, (df['Release Year']>=2000) & (df['Release Year']<=2010), (df['Release Year']>2010) ]
+val=['Pre 2000', '2000-2010', 'Post 2010']
+df['Release Period']=np.select(condition,val)
 variables_list=['Budget', 'NorthAmerica Sales', 'Worldwide Sales']
 
 ########### Initiate the app
@@ -49,7 +54,7 @@ app.layout = html.Div([
 @app.callback(Output('display-value', 'figure'),
               [Input('dropdown', 'value')])
 def display_value(continuous_var):
-   grouped_mean=df.groupby(['Distributor'])[continuous_var].mean()
+   grouped_mean=df.groupby(['Distributor', 'Release Period'])[continuous_var].mean()
    results=pd.DataFrame(grouped_mean)
    # Create a grouped bar chart
    mydata1 = go.Bar(
