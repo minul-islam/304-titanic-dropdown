@@ -13,15 +13,17 @@ tabtitle = 'Titanic!'
 color1='#92A5E8'
 color2='#8E44AD'
 color3='#FFC300'
-sourceurl = 'https://www.kaggle.com/c/titanic'
-githublink = 'https://github.com/plotly-dash-apps/304-titanic-dropdown'
+color3='#FAC200'
+sourceurl = 'https://www.kaggle.com/datasets/minisam/marvel-movie-dataset'
+githublink = 'https://github.com/minul-islam/304-titanic-dropdown'
 
 
 ###### Import a dataframe #######
-df = pd.read_csv("https://raw.githubusercontent.com/austinlasseter/plotly_dash_tutorial/master/00%20resources/titanic.csv")
-df['Female']=df['Sex'].map({'male':0, 'female':1})
-df['Cabin Class'] = df['Pclass'].map({1:'first', 2: 'second', 3:'third'})
-variables_list=['Survived', 'Female', 'Fare', 'Age']
+df = df=pd.read_csv("assets/marvel_clean.csv")
+df.rename(columns={"NorthAmerica":"NorthAmerica Sales", "Worldwide":"Worldwide Sales"}, inplace=False)
+df['Distributor'][(df['Distributor']!='Walt Disney Studios Motion Pictures') & (df['Distributor']!='20th Century Fox') 
+   & (df['Distributor']!='Sony Pictures')]='Other' 
+variables_list=['Budget', 'NorthAmerica Sales', 'Worldwide Sales']
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -31,7 +33,7 @@ app.title=tabtitle
 
 ####### Layout of the app ########
 app.layout = html.Div([
-    html.H3('Choose a continuous variable for summary statistics:'),
+    html.H3('Choose a variable for Distributor Performance:'),
     dcc.Dropdown(
         id='dropdown',
         options=[{'label': i, 'value': i} for i in variables_list],
@@ -49,35 +51,43 @@ app.layout = html.Div([
 @app.callback(Output('display-value', 'figure'),
               [Input('dropdown', 'value')])
 def display_value(continuous_var):
-    grouped_mean=df.groupby(['Cabin Class', 'Embarked'])[continuous_var].mean()
+    grouped_mean=df.groupby(['Distributor'])[continuous_var].mean()
     results=pd.DataFrame(grouped_mean)
     # Create a grouped bar chart
-    mydata1 = go.Bar(
-        x=results.loc['first'].index,
-        y=results.loc['first'][continuous_var],
-        name='First Class',
+     mydata1 = go.Bar(
+        x=results.loc['Walt Disney Studios Motion Pictures'].index,
+        y=results.loc['Walt Disney Studios Motion Pictures'][continuous_var],
+        name='Walt Disney',
         marker=dict(color=color1)
-    )
+    
     mydata2 = go.Bar(
-        x=results.loc['second'].index,
-        y=results.loc['second'][continuous_var],
-        name='Second Class',
+        x=results.loc['20th Century Fox'].index,
+        y=results.loc['20th Century Fox'][continuous_var],
+        name='Fox',
         marker=dict(color=color2)
     )
+    
     mydata3 = go.Bar(
-        x=results.loc['third'].index,
-        y=results.loc['third'][continuous_var],
-        name='Third Class',
+        x=results.loc['Sony Pictures'].index,
+        y=results.loc['Sony Pictures'][continuous_var],
+        name='Sony Pictures',
         marker=dict(color=color3)
+    )
+    
+    mydata4 = go.Bar(
+        x=results.loc['Other'].index,
+        y=results.loc['Other'][continuous_var],
+        name='Other',
+        marker=dict(color=color4)
     )
 
     mylayout = go.Layout(
-        title='Grouped bar chart',
-        xaxis = dict(title = 'Port of Embarkation'), # x-axis label
+        title='Marvel Movie by Distributors',
+        xaxis = dict(title = 'Distributor'), # x-axis label
         yaxis = dict(title = str(continuous_var)), # y-axis label
 
     )
-    fig = go.Figure(data=[mydata1, mydata2, mydata3], layout=mylayout)
+    fig = go.Figure(data=[mydata1, mydata2, mydata3, mydata4], layout=mylayout)
     return fig
 
 
