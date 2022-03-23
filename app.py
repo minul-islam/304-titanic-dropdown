@@ -54,7 +54,7 @@ def display_value(continuous_var):
    grouped_mean=df.groupby(['Distributor'])[continuous_var].mean()
    results=pd.DataFrame(grouped_mean)
    # try a pie chart 
-   fig = go.Figure(data=[go.Pie(labels=results['Distributor'],values=results[continuous_var])])
+   fig = go.Figure(data=[go.Pie(labels=results.index,values=results.values)])
    return fig
 
 
