@@ -54,7 +54,7 @@ def display_value(continuous_var):
     grouped_mean=df.groupby(['Distributor'])[continuous_var].mean()
     results=pd.DataFrame(grouped_mean)
     # Create a grouped bar chart
-     mydata1 = go.Bar(
+    mydata1 = go.Bar(
         x=results.loc['Walt Disney Studios Motion Pictures'].index,
         y=results.loc['Walt Disney Studios Motion Pictures'][continuous_var],
         name='Walt Disney',
