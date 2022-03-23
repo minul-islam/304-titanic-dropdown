@@ -37,7 +37,7 @@ app.layout = html.Div([
     dcc.Dropdown(
         id='dropdown',
         options=[{'label': i, 'value': i} for i in variables_list],
-        value=variables_list[i]
+        value=variables_list[0]
     ),
     html.Br(),
     dcc.Graph(id='display-value'),
