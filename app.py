@@ -55,6 +55,8 @@ def display_value(continuous_var):
    results=pd.DataFrame(grouped_mean)
    # try a pie chart 
    fig = go.Figure(data=[go.Pie(labels=results.index,values=results.values)])
+   print(results.index)
+   print(results.values)
    return fig
 
 
