@@ -59,6 +59,7 @@ def display_value(continuous_var):
         y=results.loc['Walt Disney Studios Motion Pictures'][continuous_var],
         name='Walt Disney',
         marker=dict(color=color1)
+    )
     
     mydata2 = go.Bar(
         x=results.loc['20th Century Fox'].index,
